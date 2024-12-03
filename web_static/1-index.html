@@ -1,38 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>AirBnB clone</title>
-        <style>
-            body {
-                margin: 0px;
-                padding: 0px;
-            }
-            header {
-                background-color: #FF0000; 
-                height: 70px; 
-                width: 100%;
-            }
+<head>
+    <meta charset="utf-8">
+    <title>AirBnB Clone</title>
+    <link rel="stylesheet" href="styles/1-hbnb.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="static/scripts/1-hbnb.js?cache_id={{ cache_id }}"></script>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        header {
+            background-color: #FF0000;
+            height: 70px;
+            width: 100%;
+        }
+        footer {
+            background-color: #00FF00;
+            height: 60px;
+            width: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            bottom: 0;
+        }
+        main {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <main>
+        <!-- Amenities Section -->
+        <section>
+            <h4>Amenities:</h4>
+            <ul>
+                {% for amenity in amenities %}
+                <li>
+                    <input type="checkbox" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">
+                    {{ amenity.name }}
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
 
-            footer {
+        <!-- States and Cities Section -->
+        <section>
+            <h4>States and Cities:</h4>
+            <ul>
+                {% for state, cities in states %}
+                <li>{{ state.name }}
+                    <ul>
+                        {% for city in cities %}
+                        <li>{{ city.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
 
-                background-color: #00FF00; 
-                height: 60px; 
-                width: 100%;
-                position: absolute;  
-                display:flex; 
-                flex-direction: column; 
-                justify-content: center; 
-                align-items: center;
-                bottom: 0;
-            }
-
-        </style>
-    </head>
-    <body>
-        <header> </header>
-        <footer>
-            <p>Holberton School</p>
-        </footer>
-    </body>
+        <!-- Places Section -->
+        <section>
+            <h4>Places:</h4>
+            <ul>
+                {% for place in places %}
+                <li>
+                    <strong>{{ place.name }}</strong>: ${{ place.price_by_night }}<br>
+                    <small>Guest Capacity: {{ place.max_guest }} | Rooms: {{ place.number_rooms }} | Bathrooms: {{ place.number_bathrooms }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>Holberton School</p>
+    </footer>
+</body>
 </html>
