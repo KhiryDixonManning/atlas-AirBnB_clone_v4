@@ -1,28 +1,28 @@
 #!/usr/bin/python3
-""" Starts a Flash Web Application """
+""" Starts a Flask Web Application """
 from models import storage
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
-from os import environ
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import uuid
 
 app = Flask(__name__)
-# app.jinja_env.trim_blocks = True
-# app.jinja_env.lstrip_blocks = True
-
 
 @app.teardown_appcontext
 def close_db(error):
     """ Remove the current SQLAlchemy Session """
     storage.close()
 
-# Task 3: updated the route to /2-hbnb/
+@app.route('/', strict_slashes=False)
+def index():
+    """ Redirect to /2-hbnb/ """
+    return redirect('/2-hbnb/', code=302)
+
 @app.route('/2-hbnb/', strict_slashes=False)
 def hbnb():
-    """ HBNB is alive! """
+    """ HBNB page rendering """
     states = storage.all(State).values()
     states = sorted(states, key=lambda k: k.name)
     st_ct = []
@@ -36,13 +36,15 @@ def hbnb():
     places = storage.all(Place).values()
     places = sorted(places, key=lambda k: k.name)
 
-    return render_template('2-hbnb.html', # Task 3: change from 1-hbnb.html to 2-hbnb.html to ensure browser does not cache the CSS files.
-                           states=st_ct,
-                           amenities=amenities,
-                           places=places,
-                           cache_id=uuid.uuid4())
-
+    return render_template(
+        '2-hbnb.html',
+        states=st_ct,
+        amenities=amenities,
+        places=places,
+        cache_id=uuid.uuid4()
+    )
 
 if __name__ == "__main__":
     """ Main Function """
+    print(" * Running on http://127.0.0.1:5000/2-hbnb/ (Press CTRL+C to quit)")
     app.run(host='0.0.0.0', port=5000)
