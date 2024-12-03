@@ -40,7 +40,14 @@ def hbnb():
                            states=st_ct,
                            amenities=amenities,
                            places=places,
-                           cache_id=uuid.uuid4()) # Task 1: Pass the cache_id variable
+                           cache_id=uuid.uuid4())  # Task 1: Pass the cache_id variable
+
+
+# Add a route for '/' to redirect to /0-hbnb/
+@app.route('/', strict_slashes=False)
+def index():
+    """ Redirect to /0-hbnb/ """
+    return hbnb()  # Calling the hbnb function from the /0-hbnb route
 
 
 if __name__ == "__main__":
